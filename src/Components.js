@@ -57,4 +57,58 @@ class FormComponent extends Component {
   }
 }
 
-export default FormComponent;
+class RequestTable extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+  componentDidMount() {
+    fetch("https://pdsapi.dase.io:8081/api/balances/history")
+    .then(response => response.json())
+    .then(data => {
+      this.setState({ data: data });
+    })
+    .catch(error => {
+      this.setState({ data: [
+        {
+          "userId": "0xb85973a890991e1d3cc2f5925302a532a9d17b71"
+        }
+      ] });
+    });
+  }
+  render() {
+    return (
+      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+      <h1> Żetonium Faucet Requests</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Block Number</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Value</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {this.state.data.map((item, index) => {
+            return (
+              <tr key={index}>
+                <td>{item.blockNumber}</td>
+                <td>{item.from}</td>
+                <td>{item.to}</td>
+                <td>{item.value}</td>
+                <td>{item.timestamp}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    );
+  }
+}
+
+export { FormComponent, RequestTable };
