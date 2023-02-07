@@ -45,7 +45,7 @@ class FormComponent extends Component {
   render() {
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-      <h1> {this.props.title}</h1>
+      <h2> {this.props.title}</h2>
       <form onSubmit={this.handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems
       :'center', justifyContent: 'center'}}>
         <label>
