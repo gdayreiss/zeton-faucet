@@ -12,6 +12,7 @@ class FormComponent extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   }
+  
   handleSubmit = (event) => {
     event.preventDefault();
     const data = {
@@ -22,7 +23,7 @@ class FormComponent extends Component {
         "receiverId": this.state.blockchainId,
         "currencyAmount": 500000
     }
-    fetch("https://pdsapi.dase.io:8081/api/balances/transfer", {
+    fetch(this.props.endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -40,75 +41,12 @@ class FormComponent extends Component {
         this.setState({ message: error });
     });
   }
+
   render() {
-    document.title = "GDR Żetonium Faucet";
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
       <img src={require('./headerimage.jpg')} width="400" height="400" alt="header image" />
       <h1> Żetonium Faucet</h1>
-      <form onSubmit={this.handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <label>Żetonium ID</label>
-        <input type="text" name="blockchainId" value={this.state.blockchainId} onChange={this.handleChange} style={{margin:'10px 0'}} />
-        <button type="submit" style={{margin:'10px 0'}}>Submit</button>
-        <p>{this.state.message}</p>
-      </form>
-    </div>
-    );
-  }
-}
+      <form onSubmit={this.handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems
 
-class RequestTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
-  }
-  componentDidMount() {
-    fetch("https://pdsapi.dase.io:8081/api/balances/history")
-    .then(response => response.json())
-    .then(data => {
-      this.setState({ data: data });
-    })
-    .catch(error => {
-      this.setState({ data: [
-        {
-          "userId": "0xb85973a890991e1d3cc2f5925302a532a9d17b71"
-        }
-      ] });
-    });
-  }
-  render() {
-    return (
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-      <h1> Żetonium Faucet Requests</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Block Number</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Value</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.data.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{item.blockNumber}</td>
-                <td>{item.from}</td>
-                <td>{item.to}</td>
-                <td>{item.value}</td>
-                <td>{item.timestamp}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-    );
-  }
-}
-
-export { FormComponent, RequestTable };
+export FormComponent;
