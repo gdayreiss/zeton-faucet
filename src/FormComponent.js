@@ -32,7 +32,7 @@ class FormComponent extends Component {
     })
     .then(response => {
         if (response.ok) {
-            this.setState({ message: "Funds transferred (500k Leos on PDSAPI)" });
+            this.setState({ message: "Funds transferred (500k Leos)" });
         } else {
             this.setState({ message: "Error: " + response.status + " " + response.statusText});
         }
@@ -45,8 +45,19 @@ class FormComponent extends Component {
   render() {
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-      <img src={require('./headerimage.jpg')} width="400" height="400" alt="header image" />
-      <h1> Żetonium Faucet</h1>
+      <h1> {this.props.title}</h1>
       <form onSubmit={this.handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems
+      :'center', justifyContent: 'center'}}>
+        <label>
+          Blockchain ID:
+          <input type="text" name="blockchainId" value={this.state.blockchainId} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value= {this.props.buttonText} />
+      </form>
+      <p>{this.state.message}</p>
+      </div>
+    );
+  }
+}
 
-export FormComponent;
+export default FormComponent;
